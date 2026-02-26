@@ -1,0 +1,407 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <!-- Primary -->
+  <title>Pre-Alpha Club — A Private Club for AI Tool-Builders</title>
+  <meta name="description" content="Pre-Alpha is a private club for anyone who uses AI to build their own tools, reshape their practice, or question what all of it changes. 30 founding memberships.">
+  <meta name="author" content="Lisa Gansky, Fabien Girardin">
+  <link rel="canonical" href="https://pre-alpha.club/">
+  <link rel="icon" href="favicon.svg" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="favicon.svg">
+
+  <!-- Open Graph -->
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://pre-alpha.club/">
+  <meta property="og:title" content="Pre-Alpha Club — A Private Club for AI Tool-Builders">
+  <meta property="og:description" content="A private club for anyone who uses AI to build their own tools, reshape their practice, or question what all of it changes. 30 founding memberships at 350€/year.">
+  <meta property="og:image" content="https://pre-alpha.club/og-image.jpg">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:site_name" content="Pre-Alpha Club">
+  <meta property="og:locale" content="en_US">
+
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Pre-Alpha Club — A Private Club for AI Tool-Builders">
+  <meta name="twitter:description" content="A private club for anyone who uses AI to build their own tools, reshape their practice, or question what all of it changes. 30 founding memberships.">
+  <meta name="twitter:image" content="https://pre-alpha.club/og-image.jpg">
+
+  <!-- Structured data -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Organization",
+    "name": "Pre-Alpha Club",
+    "url": "https://pre-alpha.club/",
+    "description": "A private club for anyone who uses AI to build their own tools, reshape their practice, or question what all of it changes.",
+    "founders": [
+      { "@type": "Person", "name": "Lisa Gansky", "url": "https://gansky.org/" },
+      { "@type": "Person", "name": "Fabien Girardin", "url": "https://fabiengirardin.com/" }
+    ]
+  }
+  </script>
+  <style>
+    *, *::before, *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    :root {
+      --bg:        #0e0e0e;
+      --text:      #e0dcd4;
+      --text-dim:  #a8a49c;
+      --text-hi:   #f0ece4;
+      --border:    #3a3834;
+      --max-width: 680px;
+    }
+
+    html {
+      font-size: 20px;
+      background: var(--bg);
+      color: var(--text);
+    }
+
+    body {
+      font-family: Georgia, 'Times New Roman', Times, serif;
+      line-height: 1.75;
+      background: var(--bg);
+      color: var(--text);
+      padding: 0 1.5rem;
+    }
+
+    a {
+      color: var(--text);
+      text-decoration: underline;
+      text-underline-offset: 3px;
+    }
+
+    a:hover {
+      color: var(--text-hi);
+    }
+
+    /* ---- Layout ---- */
+
+    .container {
+      max-width: var(--max-width);
+      margin: 0 auto;
+    }
+
+    /* ---- Hero ---- */
+
+    .hero {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      padding: 2.5rem 0 0;
+      background-image:
+        linear-gradient(rgba(14, 14, 14, 0.78), rgba(14, 14, 14, 0.78)),
+        url('https://upload.wikimedia.org/wikipedia/commons/6/6e/Gald%C3%B3s_por_Franzen_Tertulia_literaria_1897.jpg');
+      background-size: cover;
+      background-position: center top;
+    }
+
+    .hero__eyebrow {
+      display: block;
+      font-family: 'Courier New', Courier, monospace;
+      font-size: 0.78rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--text-dim);
+      padding: 0 1.5rem;
+    }
+
+    /* ---- CTA button ---- */
+
+    .cta {
+      display: inline-block;
+      font-family: 'Courier New', Courier, monospace;
+      font-size: 0.82rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      text-decoration: none;
+      color: var(--text-hi);
+      border: 1px solid #888480;
+      padding: 0.95rem 2rem;
+      transition: background 0.18s, border-color 0.18s, color 0.18s;
+    }
+
+    .cta:hover {
+      background: var(--text-hi);
+      border-color: var(--text-hi);
+      color: var(--bg);
+    }
+
+    /* ---- Epigraph ---- */
+
+    .epigraph {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      padding: 3rem 1.5rem;
+      width: 100%;
+      max-width: 860px;
+      margin: 0 auto;
+    }
+
+    .epigraph__mark {
+      display: block;
+      font-family: Georgia, 'Times New Roman', Times, serif;
+      font-size: clamp(5rem, 14vw, 9rem);
+      line-height: 0.8;
+      color: var(--border);
+      margin-bottom: 1.5rem;
+      user-select: none;
+    }
+
+    .epigraph__quote {
+      font-size: clamp(1.5rem, 4vw, 2.4rem);
+      font-style: italic;
+      font-weight: normal;
+      color: var(--text-hi);
+      line-height: 1.35;
+      letter-spacing: -0.01em;
+      margin-bottom: 2rem;
+    }
+
+    .epigraph__attr {
+      display: block;
+      font-family: 'Courier New', Courier, monospace;
+      font-size: 0.85rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--text);
+    }
+
+    /* ---- Sections ---- */
+
+    section {
+      padding: 5rem 0;
+    }
+
+    .section-label {
+      display: block;
+      font-family: 'Courier New', Courier, monospace;
+      font-size: 1.1rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--text-dim);
+      margin-bottom: 2.5rem;
+    }
+
+    /* ---- Body text ---- */
+
+    p {
+      font-size: 1.05rem;
+      line-height: 1.75;
+      color: var(--text);
+      margin-bottom: 1.4em;
+    }
+
+    p:last-child {
+      margin-bottom: 0;
+    }
+
+    /* ---- Benefits list ---- */
+
+    .benefits {
+      list-style: none;
+      margin: 2.2rem 0;
+    }
+
+    .benefits > li {
+      padding: 1.4rem 0;
+      border-top: 1px solid var(--border);
+    }
+
+    .benefits > li:last-child {
+      border-bottom: 1px solid var(--border);
+    }
+
+    .benefit-name {
+      display: block;
+      font-family: 'Courier New', Courier, monospace;
+      font-size: 0.72rem;
+      font-style: normal;
+      font-weight: normal;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--text-hi);
+      margin-bottom: 0.5rem;
+      line-height: 1.4;
+    }
+
+    .benefit-desc {
+      display: block;
+      font-size: 1.05rem;
+      color: var(--text);
+      line-height: 1.75;
+    }
+
+    .benefits__note {
+      font-size: 1rem;
+      font-style: italic;
+      color: var(--text-dim);
+      line-height: 1.72;
+      margin-top: 2rem;
+      margin-bottom: 0;
+    }
+
+    /* ---- Founding tier ---- */
+
+    .founding__price {
+      font-size: 1.15rem;
+      font-weight: normal;
+      color: var(--text-hi);
+      line-height: 1.75;
+      margin: 1.5rem 0 0.5rem;
+    }
+
+    .founding__seats {
+      font-family: 'Courier New', Courier, monospace;
+      font-size: 0.76rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--text-dim);
+      margin-bottom: 2rem;
+    }
+
+    .founding__closing {
+      margin-bottom: 2.5rem !important;
+    }
+
+    /* ---- Footer ---- */
+
+    footer {
+      padding: 3rem 0 4.5rem;
+    }
+
+    .footer__ack {
+      font-size: 0.9rem;
+      color: var(--text-dim);
+      line-height: 1.75;
+      margin-bottom: 2rem;
+    }
+
+    .footer__legal {
+      font-family: 'Courier New', Courier, monospace;
+      font-size: 0.76rem;
+      color: var(--text-dim);
+      letter-spacing: 0.05em;
+      margin: 0;
+    }
+
+    /* ---- Responsive ---- */
+
+    @media (max-width: 520px) {
+      section {
+        padding: 3.5rem 0;
+      }
+
+      .hero {
+        padding: 5rem 0 4rem;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Hero -->
+  <div class="hero">
+    <div class="epigraph">
+      <p class="epigraph__quote">We become what we behold. We shape our tools and then our tools shape us.</p>
+      <span class="epigraph__attr">Pre-Alpha Club</span>
+    </div>
+  </div>
+
+  <!-- Intro -->
+  <section>
+    <div class="container">
+      <p>Pre-Alpha is a private club for anyone (mainly non-programmers) who use AI to build their own tools, reshape their practice, or question what all of it changes.</p>
+      <p>Pre-alpha is the moment before something has a name, a roadmap, or an audience. It is the raw phase when an idea might take shape and momentum. We borrowed the term because it describes exactly where we focus our observations, thinking and work. Members of the club share that posture more than a profession. They notice friction before others do. They experiment before there is a roadmap. They articulate what they see happening before there is a consensus.</p>
+      <p>Together, we think out loud, share early ideas and ill-formed questions, and build knowledge through making, reflection and feedback.</p>
+    </div>
+  </section>
+
+  <!-- What Membership Offers -->
+  <section>
+    <div class="container">
+      <span class="section-label">What Membership Offers</span>
+      <p>Membership gives you a place to share concerns, encounter peers, different models of thinking and the opportunity to turn questions and ideas into tools, arguments, and positions. What you develop here serves your own practice and the larger conversations around you.</p>
+      <p>What you produce is yours: notes, sketches, essays, tools, talks, prototypes. The community is what motivates you to deliver them.</p>
+      <p>Membership includes:</p>
+      <ul class="benefits">
+        <li>
+          <span class="benefit-name">Weekly tertulia</span>
+          <span class="benefit-desc">A standing video call to get inspired, exchange ideas, and get feedback from members across disciplines and geographies.</span>
+        </li>
+        <li>
+          <span class="benefit-name">Direct access to all members</span>
+          <span class="benefit-desc">A small, deliberate network you can actually trust and reach.</span>
+        </li>
+        <li>
+          <span class="benefit-name">Invited guest sessions</span>
+          <span class="benefit-desc">Unexpected perspectives from people working at the edge of their practice with AI.</span>
+        </li>
+        <li>
+          <span class="benefit-name">Workcasts</span>
+          <span class="benefit-desc">Recorded working sessions that turn conversation into knowledge.</span>
+        </li>
+        <li>
+          <span class="benefit-name">Club platform and tools</span>
+          <span class="benefit-desc">We shape community dynamics with our own tools and rules.</span>
+        </li>
+        <li>
+          <span class="benefit-name">Studios</span>
+          <span class="benefit-desc">Priority access and discounts to hands-on guided explorations that go deeper into specific themes: sovereignty, trust, agency, creativity, decision-making. Through making and writing, studios are where you articulate your thinking and turn it into tools or arguments.</span>
+        </li>
+      </ul>
+      <p class="benefits__note">Members may propose and facilitate tertulias, workcasts, and studios, turning their expertise into shared knowledge.</p>
+    </div>
+  </section>
+
+  <!-- Who Is It For -->
+  <section>
+    <div class="container">
+      <span class="section-label">Who Is It For</span>
+      <p>Pre-Alpha is a small, deliberate gathering of perpetual learners who welcome and respect a format of intimacy and trustworthiness. Our mood is closer to a dinner table than a conference. You will find people driven by constant curiosity about others and the world around them.</p>
+      <p>We welcome members from diverse domains including technology, design, art, culture, entrepreneurship, science and politics who take AI seriously as a tool, a question, or both. This diversity enriches our community and creates unexpected connections between ways of thinking. We favor individuals who are avid listeners and generous contributors, whether they approach AI as creatives, pragmatists or skeptics.</p>
+    </div>
+  </section>
+
+  <!-- Join / Founding Tier -->
+  <section>
+    <div class="container">
+      <span class="section-label">Join</span>
+      <p>We are opening Pre-Alpha with a founding tier of 30 memberships. Founders are the people who show up before something has proven itself, help shape what it becomes, and carry the added significance of having been there first.</p>
+      <p class="founding__price">350€ / year</p>
+      <p class="founding__seats">30 founding memberships</p>
+      <p class="founding__closing">Come ready to think, make, and question. We will meet you there.</p>
+      <a class="cta" href="https://docs.google.com/forms/d/e/1FAIpQLSdzf0GeayT2GEfxwQZSLxcnqEmisAEiEtVRdZRY4NMUclrfBQ/viewform" target="_blank" rel="noopener">I am interested</a>
+    </div>
+  </section>
+
+  <!-- Who We Are -->
+  <section>
+    <div class="container">
+      <span class="section-label">Who We Are</span>
+      <p>We are <a href="https://gansky.org/" target="_blank" rel="noopener">Lisa Gansky</a> and <a href="https://fabiengirardin.com/" target="_blank" rel="noopener">Fabien Girardin</a>, partners at <a href="https://proximolab.com/" target="_blank" rel="noopener">Próximo Lab</a> and technologists active since the early days of the web. We are driven by curiosity and by the intent to shape our future rather than conform to styles imposed by others.</p>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer>
+    <div class="container">
+      <p class="footer__ack">Pre-Alpha Club is made possible in part by <a href="https://www.deftech.ch" target="_blank" rel="noopener">armasuisse's Science and Technology Foresight program</a>, our founding partner. Their support enables the first year of studios and activities. Their presence here reflects something we believe: the most important questions about tools, practice, AI and the future are not confined to any one domain.</p>
+      <p class="footer__legal">&copy; 2026 Pre-Alpha Club &middot; <a href="https://proximolab.com/" target="_blank" rel="noopener">Próximo Lab</a></p>
+    </div>
+  </footer>
+
+</body>
+</html>
