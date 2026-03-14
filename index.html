@@ -93,15 +93,15 @@
     /* ---- Hero ---- */
 
     .hero {
-      min-height: 100vh;
+      min-height: 88vh;
       display: flex;
       flex-direction: column;
       padding: 2.5rem 0 0;
       background-image:
-        linear-gradient(rgba(14, 14, 14, 0.78), rgba(14, 14, 14, 0.78)),
+        linear-gradient(to bottom, rgba(14, 14, 14, 0.78) 0%, rgba(14, 14, 14, 0.78) 70%, rgba(14, 14, 14, 0.97) 100%),
         url('https://upload.wikimedia.org/wikipedia/commons/6/6e/Gald%C3%B3s_por_Franzen_Tertulia_literaria_1897.jpg');
       background-size: cover;
-      background-position: center top;
+      background-position: center center;
     }
 
     .hero__eyebrow {
@@ -185,6 +185,10 @@
       padding: 5rem 0;
     }
 
+    .hero + section {
+      padding-top: 2.5rem;
+    }
+
     .section-label {
       display: block;
       font-family: 'Courier New', Courier, monospace;
@@ -213,15 +217,29 @@
     .benefits {
       list-style: none;
       margin: 2.2rem 0;
+      counter-reset: benefit;
     }
 
     .benefits > li {
-      padding: 1.4rem 0;
-      border-top: 1px solid var(--border);
+      padding: 1.6rem 0 1.6rem 1.5rem;
+      border-left: 1px solid var(--border);
+      counter-increment: benefit;
+      margin-bottom: 1rem;
     }
 
     .benefits > li:last-child {
-      border-bottom: 1px solid var(--border);
+      margin-bottom: 0;
+    }
+
+
+    .benefits > li::before {
+      content: counter(benefit, decimal-leading-zero);
+      display: block;
+      font-family: 'Courier New', Courier, monospace;
+      font-size: 2.5rem;
+      line-height: 1;
+      color: var(--border);
+      margin-bottom: 0.75rem;
     }
 
     .benefit-name {
@@ -315,7 +333,7 @@
   <!-- Hero -->
   <div class="hero">
     <div class="epigraph">
-      <p class="epigraph__quote">We become what we behold. We shape our tools and then our tools shape us.</p>
+      <p class="epigraph__quote">We shape our tools and then our tools shape us.</p>
       <span class="epigraph__attr">Pre-Alpha Club</span>
     </div>
   </div>
@@ -323,6 +341,7 @@
   <!-- Intro -->
   <section>
     <div class="container">
+      <span class="section-label">What is it</span>
       <p>Pre-Alpha is a private club for anyone (mainly non-programmers) who use AI to build their own tools, reshape their practice, or question what all of it changes.</p>
       <p>Pre-alpha is the moment before something has a name, a roadmap, or an audience. It is the raw phase when an idea might take shape and momentum. We borrowed the term because it describes exactly where we focus our observations, thinking and work. Members of the club share that posture more than a profession. They notice friction before others do. They experiment before there is a roadmap. They articulate what they see happening before there is a consensus.</p>
       <p>Together, we think out loud, share early ideas and ill-formed questions, and build knowledge through making, reflection and feedback.</p>
