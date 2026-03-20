@@ -12,6 +12,11 @@
   <link rel="icon" href="favicon.svg" type="image/svg+xml">
   <link rel="apple-touch-icon" href="favicon.svg">
 
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Inter:ital,wght@0,300;0,400;0,500;1,300;1,400&display=swap" rel="stylesheet">
+
   <!-- Open Graph -->
   <meta property="og:type" content="website">
   <meta property="og:url" content="https://pre-alpha.club/">
@@ -51,12 +56,14 @@
     }
 
     :root {
-      --bg:        #0e0e0e;
-      --text:      #e0dcd4;
-      --text-dim:  #a8a49c;
-      --text-hi:   #f0ece4;
-      --border:    #3a3834;
-      --max-width: 680px;
+      --bg:          #0a0a0a;
+      --accent:      #ff00ff;
+      --accent-soft: #b6c4ff;
+      --text:        rgba(255, 255, 255, 0.7);
+      --text-dim:    rgba(255, 255, 255, 0.4);
+      --text-hi:     #ffffff;
+      --border:      rgba(255, 255, 255, 0.12);
+      --max-width:   680px;
     }
 
     html {
@@ -66,7 +73,7 @@
     }
 
     body {
-      font-family: Georgia, 'Times New Roman', Times, serif;
+      font-family: 'Inter', sans-serif;
       line-height: 1.75;
       background: var(--bg);
       color: var(--text);
@@ -90,17 +97,99 @@
       margin: 0 auto;
     }
 
+    /* ---- Nav ---- */
+
+    .nav {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 1.25rem 2rem;
+      width: 100%;
+      flex-shrink: 0;
+      gap: 1rem;
+      position: relative;
+    }
+
+    .nav__brand {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 0.82rem;
+      font-weight: 700;
+      letter-spacing: 0.02em;
+      text-transform: uppercase;
+      color: var(--text-hi);
+      text-decoration: none;
+      white-space: nowrap;
+      flex-shrink: 0;
+    }
+
+    .nav__links {
+      display: flex;
+      list-style: none;
+      gap: 2rem;
+    }
+
+    .nav__links a {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 0.65rem;
+      font-weight: 300;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      text-decoration: none;
+      color: var(--text);
+      white-space: nowrap;
+      transition: color 0.15s;
+    }
+
+    .nav__links a:hover {
+      color: var(--text-hi);
+    }
+
+    .nav__cta {
+      font-size: 0.68rem !important;
+      letter-spacing: 0.12em !important;
+      padding: 0.55rem 1.25rem !important;
+      border-color: var(--text-hi) !important;
+      white-space: nowrap;
+      flex-shrink: 0;
+    }
+
+    .nav__cta:hover {
+      background: var(--text-hi) !important;
+      color: var(--bg) !important;
+    }
+
+    .nav__toggle {
+      display: none;
+      flex-direction: column;
+      justify-content: center;
+      gap: 5px;
+      background: none;
+      border: none;
+      cursor: pointer;
+      padding: 4px;
+      flex-shrink: 0;
+    }
+
+    .nav__toggle span {
+      display: block;
+      width: 22px;
+      height: 1px;
+      background: var(--text-hi);
+      transition: transform 0.2s, opacity 0.2s;
+    }
+
     /* ---- Hero ---- */
 
     .hero {
-      min-height: 88vh;
+      height: 100vh;
       display: flex;
       flex-direction: column;
-      padding: 2.5rem 0 0;
+      padding: 0;
       margin-left: -1.5rem;
       margin-right: -1.5rem;
+      overflow: hidden;
       background-image:
-        linear-gradient(to bottom, rgba(14, 14, 14, 0.78) 0%, rgba(14, 14, 14, 0.78) 70%, rgba(14, 14, 14, 0.97) 100%),
+        linear-gradient(160deg, rgba(45, 5, 65, 0.82) 0%, rgba(30, 5, 50, 0.78) 100%),
         url('https://upload.wikimedia.org/wikipedia/commons/6/6e/Gald%C3%B3s_por_Franzen_Tertulia_literaria_1897.jpg');
       background-size: cover;
       background-position: center center;
@@ -108,7 +197,7 @@
 
     .hero__eyebrow {
       display: block;
-      font-family: 'Courier New', Courier, monospace;
+      font-family: 'Space Grotesk', sans-serif;
       font-size: 0.78rem;
       letter-spacing: 0.2em;
       text-transform: uppercase;
@@ -120,20 +209,21 @@
 
     .cta {
       display: inline-block;
-      font-family: 'Courier New', Courier, monospace;
+      font-family: 'Space Grotesk', sans-serif;
       font-size: 0.82rem;
-      letter-spacing: 0.1em;
+      font-weight: 500;
+      letter-spacing: 0.12em;
       text-transform: uppercase;
       text-decoration: none;
       color: var(--text-hi);
-      border: 1px solid #888480;
+      border: 1px solid var(--accent);
       padding: 0.95rem 2rem;
       transition: background 0.18s, border-color 0.18s, color 0.18s;
     }
 
     .cta:hover {
-      background: var(--text-hi);
-      border-color: var(--text-hi);
+      background: var(--accent);
+      border-color: var(--accent);
       color: var(--bg);
     }
 
@@ -154,7 +244,7 @@
 
     .epigraph__mark {
       display: block;
-      font-family: Georgia, 'Times New Roman', Times, serif;
+      font-family: 'Space Grotesk', sans-serif;
       font-size: clamp(5rem, 14vw, 9rem);
       line-height: 0.8;
       color: var(--border);
@@ -163,9 +253,10 @@
     }
 
     .epigraph__quote {
-      font-size: clamp(1.5rem, 4vw, 2.4rem);
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: clamp(1rem, 5vw, 2.4rem);
       font-style: italic;
-      font-weight: normal;
+      font-weight: 300;
       color: var(--text-hi);
       line-height: 1.35;
       letter-spacing: -0.01em;
@@ -174,11 +265,11 @@
 
     .epigraph__attr {
       display: block;
-      font-family: 'Courier New', Courier, monospace;
+      font-family: 'Space Grotesk', sans-serif;
       font-size: 0.85rem;
-      letter-spacing: 0.2em;
+      letter-spacing: 0.25em;
       text-transform: uppercase;
-      color: var(--text);
+      color: var(--text-hi);
     }
 
     /* ---- Sections ---- */
@@ -193,11 +284,12 @@
 
     .section-label {
       display: block;
-      font-family: 'Courier New', Courier, monospace;
-      font-size: 1.1rem;
-      letter-spacing: 0.2em;
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 0.75rem;
+      font-weight: 500;
+      letter-spacing: 0.25em;
       text-transform: uppercase;
-      color: var(--text-dim);
+      color: var(--accent);
       margin-bottom: 2.5rem;
     }
 
@@ -237,19 +329,21 @@
     .benefits > li::before {
       content: counter(benefit, decimal-leading-zero);
       display: block;
-      font-family: 'Courier New', Courier, monospace;
+      font-family: 'Space Grotesk', sans-serif;
       font-size: 2.5rem;
+      font-weight: 300;
       line-height: 1;
-      color: var(--border);
+      color: var(--accent-soft);
+      opacity: 0.5;
       margin-bottom: 0.75rem;
     }
 
     .benefit-name {
       display: block;
-      font-family: 'Courier New', Courier, monospace;
+      font-family: 'Space Grotesk', sans-serif;
       font-size: 0.72rem;
       font-style: normal;
-      font-weight: normal;
+      font-weight: 600;
       letter-spacing: 0.18em;
       text-transform: uppercase;
       color: var(--text-hi);
@@ -284,11 +378,12 @@
     }
 
     .founding__seats {
-      font-family: 'Courier New', Courier, monospace;
+      font-family: 'Space Grotesk', sans-serif;
       font-size: 0.76rem;
+      font-weight: 500;
       letter-spacing: 0.15em;
       text-transform: uppercase;
-      color: var(--text-dim);
+      color: var(--accent-soft);
       margin-bottom: 2rem;
     }
 
@@ -310,7 +405,7 @@
     }
 
     .footer__legal {
-      font-family: 'Courier New', Courier, monospace;
+      font-family: 'Space Grotesk', sans-serif;
       font-size: 0.76rem;
       color: var(--text-dim);
       letter-spacing: 0.05em;
@@ -320,12 +415,61 @@
     /* ---- Responsive ---- */
 
     @media (max-width: 520px) {
+      html {
+        font-size: 16px;
+      }
+
       section {
         padding: 3.5rem 0;
       }
 
-      .hero {
-        padding: 5rem 0 4rem;
+      .nav__toggle {
+        display: flex;
+      }
+
+      .nav__cta {
+        display: none !important;
+      }
+
+      .nav__links {
+        display: none;
+        position: absolute;
+        top: 100%;
+        left: 0;
+        right: 0;
+        background: rgba(8, 0, 14, 0.97);
+        flex-direction: column;
+        align-items: flex-start;
+        padding: 1.5rem 2rem 2rem;
+        gap: 1.5rem;
+        border-top: 1px solid var(--border);
+        z-index: 100;
+      }
+
+      .nav--open .nav__links {
+        display: flex;
+      }
+
+      .nav__links a {
+        font-size: 0.78rem;
+        letter-spacing: 0.2em;
+      }
+
+      .epigraph__attr {
+        font-size: 0.62rem;
+        letter-spacing: 0.2em;
+      }
+
+      .nav--open .nav__toggle span:nth-child(1) {
+        transform: translateY(6px) rotate(45deg);
+      }
+
+      .nav--open .nav__toggle span:nth-child(2) {
+        opacity: 0;
+      }
+
+      .nav--open .nav__toggle span:nth-child(3) {
+        transform: translateY(-6px) rotate(-45deg);
       }
     }
   </style>
@@ -334,14 +478,28 @@
 
   <!-- Hero -->
   <div class="hero">
+    <nav class="nav">
+      <span class="nav__brand">Pre-Alpha Club</span>
+      <ul class="nav__links">
+        <li><a href="#what-is-it">What is it</a></li>
+        <li><a href="#membership">Membership</a></li>
+        <li><a href="#who-is-it-for">Who is it for</a></li>
+      </ul>
+      <a class="cta nav__cta" href="#join">I am interested</a>
+      <button class="nav__toggle" aria-label="Toggle menu">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+    </nav>
     <div class="epigraph">
-      <p class="epigraph__quote">We shape our tools and then our tools shape us.</p>
+      <p class="epigraph__quote">&ldquo;We shape our tools and<br>then our tools shape us.&rdquo;</p>
       <span class="epigraph__attr">Pre-Alpha Club</span>
     </div>
   </div>
 
   <!-- Intro -->
-  <section>
+  <section id="what-is-it">
     <div class="container">
       <span class="section-label">What is it</span>
       <p>Pre-Alpha is a private club for anyone (mainly non-programmers) who use AI to build their own tools, reshape their practice, or question what all of it changes.</p>
@@ -350,10 +508,10 @@
     </div>
   </section>
 
-  <!-- What Membership Offers -->
-  <section>
+  <!-- Membership -->
+  <section id="membership">
     <div class="container">
-      <span class="section-label">What Membership Offers</span>
+      <span class="section-label">Membership</span>
       <p>Membership gives you a place to share concerns, encounter peers, different models of thinking and the opportunity to turn questions and ideas into tools, arguments, and positions. What you develop here serves your own practice and the larger conversations around you.</p>
       <p>What you produce is yours: notes, sketches, essays, tools, talks, prototypes. The community is what motivates you to deliver them.</p>
       <p>Membership includes:</p>
@@ -388,7 +546,7 @@
   </section>
 
   <!-- Who Is It For -->
-  <section>
+  <section id="who-is-it-for">
     <div class="container">
       <span class="section-label">Who Is It For</span>
       <p>Pre-Alpha is a small, deliberate gathering of perpetual learners who welcome and respect a format of intimacy and trustworthiness. Our mood is closer to a dinner table than a conference. You will find people driven by constant curiosity about others and the world around them.</p>
@@ -397,7 +555,7 @@
   </section>
 
   <!-- Join / Founding Tier -->
-  <section>
+  <section id="join">
     <div class="container">
       <span class="section-label">Join</span>
       <p>We are opening Pre-Alpha with a founding tier of 30 memberships. Founders are the people who show up before something has proven itself, help shape what it becomes, and carry the added significance of having been there first.</p>
@@ -424,5 +582,13 @@
     </div>
   </footer>
 
+  <script>
+    const nav = document.querySelector('.nav');
+    const toggle = document.querySelector('.nav__toggle');
+    toggle.addEventListener('click', () => nav.classList.toggle('nav--open'));
+    document.querySelectorAll('.nav__links a').forEach(link =>
+      link.addEventListener('click', () => nav.classList.remove('nav--open'))
+    );
+  </script>
 </body>
 </html>
