@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Member Compact — Pre-Alpha Club</title>
+  <link rel="icon" href="favicon.svg" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="favicon.svg">
+  <meta name="robots" content="noindex, nofollow">
+  <style>
+    *, *::before, *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    :root {
+      --bg:        #0e0e0e;
+      --text:      #e0dcd4;
+      --text-dim:  #a8a49c;
+      --text-hi:   #f0ece4;
+      --border:    #3a3834;
+      --max-width: 680px;
+    }
+
+    html {
+      font-size: 20px;
+      background: var(--bg);
+      color: var(--text);
+    }
+
+    body {
+      font-family: Georgia, 'Times New Roman', Times, serif;
+      line-height: 1.75;
+      background: var(--bg);
+      color: var(--text);
+      padding: 0 1.5rem;
+    }
+
+    a {
+      color: var(--text);
+      text-decoration: underline;
+      text-underline-offset: 3px;
+    }
+
+    a:hover { color: var(--text-hi); }
+
+    .container {
+      max-width: var(--max-width);
+      margin: 0 auto;
+    }
+
+    /* ---- Header ---- */
+
+    header {
+      padding: 3.5rem 0 3rem;
+      border-bottom: 1px solid var(--border);
+      margin-bottom: 4rem;
+    }
+
+    .back-link {
+      display: inline-block;
+      font-family: 'Courier New', Courier, monospace;
+      font-size: 0.72rem;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      text-decoration: none;
+      color: var(--text-dim);
+      margin-bottom: 2rem;
+    }
+
+    .back-link::before { content: '← '; }
+    .back-link:hover { color: var(--text-hi); }
+
+    .page-eyebrow {
+      display: block;
+      font-family: 'Courier New', Courier, monospace;
+      font-size: 0.72rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--text-dim);
+      margin-bottom: 1rem;
+    }
+
+    .page-title {
+      font-size: clamp(1.6rem, 4vw, 2.4rem);
+      font-style: italic;
+      font-weight: normal;
+      color: var(--text-hi);
+      line-height: 1.3;
+    }
+
+    /* ---- Content ---- */
+
+    .preamble {
+      font-size: 1.05rem;
+      color: var(--text);
+      line-height: 1.75;
+      margin-bottom: 4rem;
+    }
+
+    .compact-list {
+      list-style: none;
+    }
+
+    .compact-list > li {
+      padding: 2rem 0 2rem 1.5rem;
+      border-left: 1px solid var(--border);
+      margin-bottom: 1.5rem;
+    }
+
+    .compact-list > li:last-child {
+      margin-bottom: 0;
+    }
+
+    .compact-title {
+      display: block;
+      font-family: Georgia, 'Times New Roman', Times, serif;
+      font-size: 1.35rem;
+      font-style: italic;
+      color: var(--text-hi);
+      margin-bottom: 0.75rem;
+      line-height: 1.35;
+    }
+
+    .compact-body {
+      font-size: 1.05rem;
+      color: var(--text);
+      line-height: 1.75;
+    }
+
+    /* ---- Footer ---- */
+
+    footer {
+      padding: 4rem 0 4.5rem;
+      border-top: 1px solid var(--border);
+      margin-top: 5rem;
+    }
+
+    .footer__legal {
+      font-family: 'Courier New', Courier, monospace;
+      font-size: 0.72rem;
+      color: var(--text-dim);
+      letter-spacing: 0.05em;
+    }
+
+    /* ---- Responsive ---- */
+
+    @media (max-width: 520px) {
+      header { padding: 2.5rem 0 2rem; margin-bottom: 3rem; }
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <div class="container">
+      <a class="back-link" href="/">Pre-Alpha Club</a>
+      <span class="page-eyebrow">Membership</span>
+      <h1 class="page-title">Member Compact</h1>
+    </div>
+  </header>
+
+  <main>
+    <div class="container">
+
+      <p class="preamble">We come together to enrich what we are working on and to shape our thinking. This compact is how we protect this precious space.</p>
+
+      <ol class="compact-list">
+
+        <li>
+          <span class="compact-title">The club is only as good as what each member puts into it</span>
+          <p class="compact-body">Membership is not spectatorship. We are here to contribute, not to observe. That means showing up, sharing something unfinished, articulating unexpected ideas and forming half-formed questions.</p>
+        </li>
+
+        <li>
+          <span class="compact-title">We are a trusted intimate group, not a quotable source</span>
+          <p class="compact-body">You may share your own outputs freely in public contexts. When the club shapes your thinking, acknowledge the space. Do not reference what others said or attribute their ideas without explicit permission.</p>
+        </li>
+
+        <li>
+          <span class="compact-title">We disagree with curiosity, not dismissal</span>
+          <p class="compact-body">Multiple perspectives on AI set the condition of the club. Skeptics and enthusiasts sit at the same table. What we owe each other is genuine positive engagement.</p>
+        </li>
+
+        <li>
+          <span class="compact-title">This compact is valid even after you are no longer a club member</span>
+        </li>
+
+      </ol>
+
+    </div>
+  </main>
+
+  <footer>
+    <div class="container">
+      <p class="footer__legal">&copy; 2026 Pre-Alpha Club &middot; <a href="https://proximolab.com/" target="_blank" rel="noopener">Próximo Lab</a></p>
+    </div>
+  </footer>
+
+</body>
+</html>

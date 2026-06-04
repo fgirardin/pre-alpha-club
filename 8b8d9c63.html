@@ -1,0 +1,650 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Who is in the room with me? — Pre-Alpha Club</title>
+  <link rel="icon" href="favicon.svg" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="favicon.svg">
+  <!-- No indexing for this page -->
+  <meta name="robots" content="noindex, nofollow">
+  <style>
+    *, *::before, *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    :root {
+      --bg:        #0e0e0e;
+      --text:      #e0dcd4;
+      --text-dim:  #a8a49c;
+      --text-hi:   #f0ece4;
+      --border:    #3a3834;
+      --max-width: 900px;
+    }
+
+    html {
+      font-size: 18px;
+      background: var(--bg);
+      color: var(--text);
+    }
+
+    body {
+      font-family: Georgia, 'Times New Roman', Times, serif;
+      line-height: 1.75;
+      background: var(--bg);
+      color: var(--text);
+      padding: 0 1.5rem;
+    }
+
+    a {
+      color: var(--text);
+      text-decoration: underline;
+      text-underline-offset: 3px;
+    }
+
+    a:hover {
+      color: var(--text-hi);
+    }
+
+    .container {
+      max-width: var(--max-width);
+      margin: 0 auto;
+    }
+
+    /* ---- Header ---- */
+
+    header {
+      padding: 3.5rem 0 3rem;
+      border-bottom: 1px solid var(--border);
+      margin-bottom: 4rem;
+    }
+
+    .back-link {
+      display: inline-block;
+      font-family: 'Courier New', Courier, monospace;
+      font-size: 0.72rem;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      text-decoration: none;
+      color: var(--text-dim);
+      margin-bottom: 2rem;
+    }
+
+    .back-link:hover {
+      color: var(--text-hi);
+    }
+
+    .back-link::before {
+      content: '← ';
+    }
+
+    .page-eyebrow {
+      display: block;
+      font-family: 'Courier New', Courier, monospace;
+      font-size: 0.72rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--text-dim);
+      margin-bottom: 1rem;
+    }
+
+    .page-title {
+      font-size: clamp(1.6rem, 4vw, 2.4rem);
+      font-style: italic;
+      font-weight: normal;
+      color: var(--text-hi);
+      line-height: 1.3;
+    }
+
+    .member-count {
+      display: inline-block;
+      margin-top: 1rem;
+      font-family: 'Courier New', Courier, monospace;
+      font-size: 0.72rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--text-dim);
+    }
+
+    /* ---- Member grid ---- */
+
+    .members-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 2px;
+      margin-bottom: 6rem;
+    }
+
+    /* ---- Member card ---- */
+
+    .member-card {
+      padding: 2rem 1.75rem;
+      border: 1px solid var(--border);
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+    }
+
+    .member-card:hover {
+      border-color: #5a5652;
+    }
+
+    /* Photo */
+
+    .member-photo-wrap {
+      width: 80px;
+      height: 80px;
+      flex-shrink: 0;
+      border-radius: 50%;
+      overflow: hidden;
+      background: var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .member-photo {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      border-radius: 50%;
+      display: block;
+    }
+
+    .member-initials {
+      font-family: 'Courier New', Courier, monospace;
+      font-size: 1.1rem;
+      letter-spacing: 0.05em;
+      color: var(--text-dim);
+      user-select: none;
+      display: none; /* shown via JS if image fails */
+    }
+
+    /* Info */
+
+    .member-info {
+      flex: 1;
+    }
+
+    .member-name {
+      font-size: 1.05rem;
+      font-weight: normal;
+      color: var(--text-hi);
+      line-height: 1.3;
+      margin-bottom: 0.25rem;
+    }
+
+    .member-location {
+      font-family: 'Courier New', Courier, monospace;
+      font-size: 0.68rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--text-dim);
+      margin-bottom: 0.9rem;
+    }
+
+    .member-bio {
+      font-size: 0.88rem;
+      color: var(--text);
+      line-height: 1.7;
+      margin-bottom: 1rem;
+    }
+
+    /* Links row */
+
+    .member-links {
+      display: flex;
+      gap: 0.75rem;
+      align-items: center;
+      flex-wrap: wrap;
+    }
+
+    .member-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.35rem;
+      font-family: 'Courier New', Courier, monospace;
+      font-size: 0.65rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      text-decoration: none;
+      color: var(--text-dim);
+      border: 1px solid var(--border);
+      padding: 0.3rem 0.65rem;
+      transition: color 0.15s, border-color 0.15s;
+    }
+
+    .member-link:hover {
+      color: var(--text-hi);
+      border-color: #5a5652;
+    }
+
+    .member-link svg {
+      flex-shrink: 0;
+    }
+
+    /* ---- Footer ---- */
+
+    footer {
+      padding: 3rem 0 4.5rem;
+      border-top: 1px solid var(--border);
+    }
+
+    .footer__legal {
+      font-family: 'Courier New', Courier, monospace;
+      font-size: 0.72rem;
+      color: var(--text-dim);
+      letter-spacing: 0.05em;
+    }
+
+    /* ---- Responsive ---- */
+
+    @media (max-width: 600px) {
+      .members-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <div class="container">
+      <a class="back-link" href="/">Pre-Alpha Club</a>
+      <span class="page-eyebrow">Members</span>
+      <h1 class="page-title">Who is in the room with me?</h1>
+      <span class="member-count">18 founding members</span>
+    </div>
+  </header>
+
+  <main>
+    <div class="container">
+      <div class="members-grid">
+
+        <!-- Álvaro Márquez -->
+        <div class="member-card">
+          <div class="member-photo-wrap">
+            <img class="member-photo" src="members/photos/alvaro-marquez.jpg" alt="Álvaro Márquez"
+              onerror="this.style.display='none';this.nextElementSibling.style.display='block'">
+            <span class="member-initials">ÁM</span>
+          </div>
+          <div class="member-info">
+            <p class="member-name">Álvaro Márquez</p>
+            <p class="member-location">London, UK</p>
+            <p class="member-bio">Álvaro Márquez is a designer and creative leader working at the intersection of technology and human experience. Formerly Chief Experience Officer at icon incar and alumnus of frog, Method, and ABC, he now serves as VP of Experience Design at Publicis Sapient in London, shaping digital transformation for global clients across automotive and mobility.</p>
+            <div class="member-links">
+              <a class="member-link" href="https://www.linkedin.com/in/mrmarquez/" target="_blank" rel="noopener">
+                <svg width="11" height="11" viewBox="0 0 24 24" fill="currentColor"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
+                LinkedIn
+              </a>
+              <a class="member-link" href="http://mrmarquez.com/" target="_blank" rel="noopener">↗ Website</a>
+            </div>
+          </div>
+        </div>
+
+        <!-- Andrés Ortiz -->
+        <div class="member-card">
+          <div class="member-photo-wrap">
+            <img class="member-photo" src="members/photos/andres-ortiz.jpg" alt="Andrés Ortiz"
+              onerror="this.style.display='none';this.nextElementSibling.style.display='block'">
+            <span class="member-initials">AO</span>
+          </div>
+          <div class="member-info">
+            <p class="member-name">Andrés Ortiz</p>
+            <p class="member-location">Barcelona, Spain</p>
+            <p class="member-bio">Andrés Ortiz is Co-Founding Partner of Bestiario, a creative data design agency with studios in Barcelona and Bogotá. An architect by training turned UX and AI designer, he leads projects at the intersection of data visualization, interaction design, and emerging technology, helping organizations make complex information meaningful and beautiful.</p>
+            <div class="member-links">
+              <a class="member-link" href="https://www.linkedin.com/in/andrés-ortiz-9a659a2b1" target="_blank" rel="noopener">
+                <svg width="11" height="11" viewBox="0 0 24 24" fill="currentColor"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
+                LinkedIn
+              </a>
+            </div>
+          </div>
+        </div>
+
+        <!-- Basile Zimmermann -->
+        <div class="member-card">
+          <div class="member-photo-wrap">
+            <img class="member-photo" src="members/photos/basile-zimmermann.jpg" alt="Basile Zimmermann"
+              onerror="this.style.display='none';this.nextElementSibling.style.display='block'">
+            <span class="member-initials">BZ</span>
+          </div>
+          <div class="member-info">
+            <p class="member-name">Basile Zimmermann</p>
+            <p class="member-location">Geneva, Switzerland</p>
+            <p class="member-bio">Basile Zimmermann is a Senior Lecturer at the University of Geneva's Global Studies Institute, where he teaches and researches the anthropology of innovation with a comparative focus on China and Europe. Author of <em>Waves and Forms</em> (MIT Press), he also co-created CERTIFY, a distributed framework leveraging fact-checkers and crowdsourcing to strengthen news credibility on social media.</p>
+            <div class="member-links">
+              <a class="member-link" href="https://www.linkedin.com/in/basilezimmermann/" target="_blank" rel="noopener">
+                <svg width="11" height="11" viewBox="0 0 24 24" fill="currentColor"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
+                LinkedIn
+              </a>
+              <a class="member-link" href="https://www.unige.ch/gsi/presentation/enseignants/cer/basile-zimmermann" target="_blank" rel="noopener">↗ Website</a>
+            </div>
+          </div>
+        </div>
+
+        <!-- Daniel Goddemeyer -->
+        <div class="member-card">
+          <div class="member-photo-wrap">
+            <img class="member-photo" src="members/photos/daniel-goddemeyer.jpg" alt="Daniel Goddemeyer"
+              onerror="this.style.display='none';this.nextElementSibling.style.display='block'">
+            <span class="member-initials">DG</span>
+          </div>
+          <div class="member-info">
+            <p class="member-name">Daniel Goddemeyer</p>
+            <p class="member-location">Amsterdam, Netherlands</p>
+            <p class="member-bio">Daniel Goddemeyer is a former Creative Director currently at IKEA, with over twenty years of experience envisioning future products and services. A faculty member at SVA's MFA Interaction Design program, he has led award-winning work for clients including Google AI, Audi, and BBVA, and is known for design at the intersection of data, AI, and human behavior.</p>
+            <div class="member-links">
+              <a class="member-link" href="https://www.linkedin.com/in/danielgoddemeyer/" target="_blank" rel="noopener">
+                <svg width="11" height="11" viewBox="0 0 24 24" fill="currentColor"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
+                LinkedIn
+              </a>
+              <a class="member-link" href="https://danielgoddemeyer.com/" target="_blank" rel="noopener">↗ Website</a>
+            </div>
+          </div>
+        </div>
+
+        <!-- David Serrault -->
+        <div class="member-card">
+          <div class="member-photo-wrap">
+            <img class="member-photo" src="members/photos/david-serrault.jpg" alt="David Serrault"
+              onerror="this.style.display='none';this.nextElementSibling.style.display='block'">
+            <span class="member-initials">DS</span>
+          </div>
+          <div class="member-info">
+            <p class="member-name">David Serrault</p>
+            <p class="member-location">Paris, France</p>
+            <p class="member-bio">David Serrault is Design Director at Groupe BPCE, France's second-largest banking group, where he leads AI-driven customer experience and design at scale. He steers the group's design system and UX strategy across retail banking and digital payments, and writes on Medium about the evolving relationship between artificial intelligence and design practice.</p>
+            <div class="member-links">
+              <a class="member-link" href="https://www.linkedin.com/in/davidserrault/" target="_blank" rel="noopener">
+                <svg width="11" height="11" viewBox="0 0 24 24" fill="currentColor"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
+                LinkedIn
+              </a>
+              <a class="member-link" href="https://david-serrault.medium.com/" target="_blank" rel="noopener">↗ Website</a>
+            </div>
+          </div>
+        </div>
+
+        <!-- Emile Hooge -->
+        <div class="member-card">
+          <div class="member-photo-wrap">
+            <img class="member-photo" src="members/photos/emile-hooge.jpg" alt="Emile Hooge"
+              onerror="this.style.display='none';this.nextElementSibling.style.display='block'">
+            <span class="member-initials">EH</span>
+          </div>
+          <div class="member-info">
+            <p class="member-name">Emile Hooge</p>
+            <p class="member-location">Lyon, France</p>
+            <p class="member-bio">Emile Hooge is a Partner at nova7, a Lyon-based research and strategy consultancy, where he combines strategic foresight, user research, and service design to help organizations navigate systemic change. He also teaches at EM Lyon Business School and is a recognized voice on sustainable lifestyles and territorial transition.</p>
+            <div class="member-links">
+              <a class="member-link" href="https://www.linkedin.com/in/hooge/" target="_blank" rel="noopener">
+                <svg width="11" height="11" viewBox="0 0 24 24" fill="currentColor"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
+                LinkedIn
+              </a>
+            </div>
+          </div>
+        </div>
+
+        <!-- Fabien Girardin -->
+        <div class="member-card">
+          <div class="member-photo-wrap">
+            <img class="member-photo" src="members/photos/fabien-girardin.jpg" alt="Fabien Girardin"
+              onerror="this.style.display='none';this.nextElementSibling.style.display='block'">
+            <span class="member-initials">FG</span>
+          </div>
+          <div class="member-info">
+            <p class="member-name">Fabien Girardin</p>
+            <p class="member-location">Gijón, Spain</p>
+            <p class="member-bio">Fabien Girardin is a multidisciplinary technologist working at the interface of people and intelligent systems. Refined across 15 years of experiments from MIT to the Near Future Laboratory, his people-first approach blends creativity with engineering. A pioneer of design fiction, he co-authored <em>The Manual of Design Fiction</em>.</p>
+            <div class="member-links">
+              <a class="member-link" href="https://www.linkedin.com/in/fabiengirardin/" target="_blank" rel="noopener">
+                <svg width="11" height="11" viewBox="0 0 24 24" fill="currentColor"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
+                LinkedIn
+              </a>
+              <a class="member-link" href="https://girardinnova.com/" target="_blank" rel="noopener">↗ Website</a>
+            </div>
+          </div>
+        </div>
+
+        <!-- Jose A. Rodriguez-Serrano -->
+        <div class="member-card">
+          <div class="member-photo-wrap">
+            <img class="member-photo" src="members/photos/jose-rodriguez-serrano.jpg" alt="Jose A. Rodriguez-Serrano"
+              onerror="this.style.display='none';this.nextElementSibling.style.display='block'">
+            <span class="member-initials">JR</span>
+          </div>
+          <div class="member-info">
+            <p class="member-name">Jose A. Rodriguez-Serrano</p>
+            <p class="member-location">Barcelona, Spain</p>
+            <p class="member-bio">Jose A. Rodriguez-Serrano is a Senior Lecturer in AI at Esade Business School and Director of the Data, Analytics, Technology and Artificial Intelligence department. Holding a PhD in Computer Vision and over 20 patents, he previously led applied AI at BBVA's AI Factory, bringing deep industrial experience to his academic and advisory work.</p>
+            <div class="member-links">
+              <a class="member-link" href="https://www.linkedin.com/in/jose-a-rodriguez-serrano-46505653/" target="_blank" rel="noopener">
+                <svg width="11" height="11" viewBox="0 0 24 24" fill="currentColor"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
+                LinkedIn
+              </a>
+              <a class="member-link" href="https://www.esade.edu/faculty/joseantonio.rodriguez15" target="_blank" rel="noopener">↗ Website</a>
+            </div>
+          </div>
+        </div>
+
+        <!-- Juan Morales del Olmo -->
+        <div class="member-card">
+          <div class="member-photo-wrap">
+            <img class="member-photo" src="members/photos/juan-morales.jpg" alt="Juan Morales del Olmo"
+              onerror="this.style.display='none';this.nextElementSibling.style.display='block'">
+            <span class="member-initials">JM</span>
+          </div>
+          <div class="member-info">
+            <p class="member-name">Juan Morales del Olmo</p>
+            <p class="member-location">Madrid, Spain</p>
+            <p class="member-bio">Juan Morales del Olmo is an Interaction Designer and Data Scientist at Graphext, where he blends design, development, and data analysis to make complex information visually accessible. Holding a PhD in Computer Science from Universidad Politécnica de Madrid, he bridges academic rigour and product craft in the field of human-computer interaction.</p>
+            <div class="member-links">
+              <a class="member-link" href="https://www.linkedin.com/in/juanmoralesdelolmo/" target="_blank" rel="noopener">
+                <svg width="11" height="11" viewBox="0 0 24 24" fill="currentColor"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
+                LinkedIn
+              </a>
+            </div>
+          </div>
+        </div>
+
+        <!-- Laurent Haug -->
+        <div class="member-card">
+          <div class="member-photo-wrap">
+            <img class="member-photo" src="members/photos/laurent-haug.jpg" alt="Laurent Haug"
+              onerror="this.style.display='none';this.nextElementSibling.style.display='block'">
+            <span class="member-initials">LH</span>
+          </div>
+          <div class="member-info">
+            <p class="member-name">Laurent Haug</p>
+            <p class="member-location">Villars sur Ollon, Switzerland</p>
+            <p class="member-bio">Laurent Haug is a Swiss entrepreneur, curator, and technology strategist best known for founding the Lift Conference, Europe's pioneering forum on technology and society. Through his consultancy, he advises global organisations on anticipating technological change and translating emerging trends into strategic opportunity.</p>
+            <div class="member-links">
+              <a class="member-link" href="https://www.linkedin.com/in/laurenthaug/" target="_blank" rel="noopener">
+                <svg width="11" height="11" viewBox="0 0 24 24" fill="currentColor"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
+                LinkedIn
+              </a>
+              <a class="member-link" href="https://laurenthaug.com/" target="_blank" rel="noopener">↗ Website</a>
+            </div>
+          </div>
+        </div>
+
+        <!-- Lisa Gansky -->
+        <div class="member-card">
+          <div class="member-photo-wrap">
+            <img class="member-photo" src="members/photos/lisa-gansky.jpg" alt="Lisa Gansky"
+              onerror="this.style.display='none';this.nextElementSibling.style.display='block'">
+            <span class="member-initials">LG</span>
+          </div>
+          <div class="member-info">
+            <p class="member-name">Lisa Gansky</p>
+            <p class="member-location">Piedmont, Italy</p>
+            <p class="member-bio">Lisa Gansky is a serial entrepreneur and investor who co-founded GNN (one of the first commercial websites) and Ofoto, and authored <em>The Mesh</em>, a defining book on the sharing economy. Today she co-leads Mesh Ventures and Boundaryless, backing startups at the frontier of networked business models and open systems.</p>
+            <div class="member-links">
+              <a class="member-link" href="https://www.linkedin.com/in/lgansky/" target="_blank" rel="noopener">
+                <svg width="11" height="11" viewBox="0 0 24 24" fill="currentColor"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
+                LinkedIn
+              </a>
+              <a class="member-link" href="https://meshing.it" target="_blank" rel="noopener">↗ Website</a>
+            </div>
+          </div>
+        </div>
+
+        <!-- Nicolás Bronzina -->
+        <div class="member-card">
+          <div class="member-photo-wrap">
+            <img class="member-photo" src="members/photos/nicolas-bronzina.jpg" alt="Nicolás Bronzina"
+              onerror="this.style.display='none';this.nextElementSibling.style.display='block'">
+            <span class="member-initials">NB</span>
+          </div>
+          <div class="member-info">
+            <p class="member-name">Nicolás Bronzina</p>
+            <p class="member-location">Madrid, Spain</p>
+            <p class="member-bio">Nicolás Bronzina is an AI-enhanced futures designer and co-founder of Heated Studio, a consultancy specialising in climate futures. Working at the intersection of design fiction, speculative prototyping, and sociological research, he helps organisations turn abstract climate and technological risks into tangible artefacts and strategies teams can act on.</p>
+            <div class="member-links">
+              <a class="member-link" href="https://www.linkedin.com/in/nicolasbronzina" target="_blank" rel="noopener">
+                <svg width="11" height="11" viewBox="0 0 24 24" fill="currentColor"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
+                LinkedIn
+              </a>
+              <a class="member-link" href="https://www.nicolasbronzina.com" target="_blank" rel="noopener">↗ Website</a>
+            </div>
+          </div>
+        </div>
+
+        <!-- Patrick Pittman -->
+        <div class="member-card">
+          <div class="member-photo-wrap">
+            <img class="member-photo" src="members/photos/patrick-pittman.jpg" alt="Patrick Pittman"
+              onerror="this.style.display='none';this.nextElementSibling.style.display='block'">
+            <span class="member-initials">PP</span>
+          </div>
+          <div class="member-info">
+            <p class="member-name">Patrick Pittman</p>
+            <p class="member-location">Toronto, Canada</p>
+            <p class="member-bio">Patrick Pittman is a writer, editor, and creative business strategist based between Toronto and Newfoundland. Former editor of cult Australian magazines <em>Dumbo Feather</em> and <em>The Alpine Review</em>, he now runs No Media Company, delivering research-driven strategic sensemaking for global clients, and is a member of the GROUP OF HUMANS creative leadership network.</p>
+            <div class="member-links">
+              <a class="member-link" href="https://www.linkedin.com/in/patricktpittman" target="_blank" rel="noopener">
+                <svg width="11" height="11" viewBox="0 0 24 24" fill="currentColor"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
+                LinkedIn
+              </a>
+              <a class="member-link" href="https://patrickpittman.com" target="_blank" rel="noopener">↗ Website</a>
+            </div>
+          </div>
+        </div>
+
+        <!-- Pierre Heistein -->
+        <div class="member-card">
+          <div class="member-photo-wrap">
+            <img class="member-photo" src="members/photos/pierre-heistein.jpg" alt="Pierre Heistein"
+              onerror="this.style.display='none';this.nextElementSibling.style.display='block'">
+            <span class="member-initials">PH</span>
+          </div>
+          <div class="member-info">
+            <p class="member-name">Pierre Heistein</p>
+            <p class="member-location">San Rafael, Argentina</p>
+            <p class="member-bio">Pierre Heistein is a South African macroeconomic analyst and writer whose work spans sub-Saharan Africa, Iran, and Argentina. A former analyst at Oxford Analytica and engagement manager at 10EQS, he founded The 12.01 Project, a documentary production platform for social and economic change.</p>
+            <div class="member-links">
+              <a class="member-link" href="https://www.linkedin.com/in/pierreheistein" target="_blank" rel="noopener">
+                <svg width="11" height="11" viewBox="0 0 24 24" fill="currentColor"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
+                LinkedIn
+              </a>
+            </div>
+          </div>
+        </div>
+
+        <!-- Rohit Gupta -->
+        <div class="member-card">
+          <div class="member-photo-wrap">
+            <img class="member-photo" src="members/photos/rohit-gupta.jpg" alt="Rohit Gupta"
+              onerror="this.style.display='none';this.nextElementSibling.style.display='block'">
+            <span class="member-initials">RG</span>
+          </div>
+          <div class="member-info">
+            <p class="member-name">Rohit Gupta</p>
+            <p class="member-location">Madrid, Spain</p>
+            <p class="member-bio">Rohit Gupta is a design engineer and creative technologist based in Madrid, bridging physical computing, interaction design, and data visualisation. A CHI 2017 Best Paper Award winner, he works with innovation teams to build prototypes that validate product and market hypotheses, and is a fellow at IED Madrid's Innovation Lab.</p>
+            <div class="member-links">
+              <a class="member-link" href="https://www.linkedin.com/in/rohit7gupta/" target="_blank" rel="noopener">
+                <svg width="11" height="11" viewBox="0 0 24 24" fill="currentColor"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
+                LinkedIn
+              </a>
+              <a class="member-link" href="http://rohitg.in/" target="_blank" rel="noopener">↗ Website</a>
+            </div>
+          </div>
+        </div>
+
+        <!-- Ross Methven -->
+        <div class="member-card">
+          <div class="member-photo-wrap">
+            <img class="member-photo" src="members/photos/ross-methven.jpg" alt="Ross Methven"
+              onerror="this.style.display='none';this.nextElementSibling.style.display='block'">
+            <span class="member-initials">RM</span>
+          </div>
+          <div class="member-info">
+            <p class="member-name">Ross Methven</p>
+            <p class="member-location">London, UK</p>
+            <p class="member-bio">Ross Methven is a co-founder of financial services consultancy 11:FS and Managing Director of 11:FS Pulse, the firm's digital banking benchmarking product. With over two decades in digital banking research, he helps financial institutions understand how their products compare against the global landscape of digital-first challengers.</p>
+            <div class="member-links">
+              <a class="member-link" href="https://www.linkedin.com/in/rossmethven" target="_blank" rel="noopener">
+                <svg width="11" height="11" viewBox="0 0 24 24" fill="currentColor"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
+                LinkedIn
+              </a>
+            </div>
+          </div>
+        </div>
+
+        <!-- Simone Cicero -->
+        <div class="member-card">
+          <div class="member-photo-wrap">
+            <img class="member-photo" src="members/photos/simone-cicero.jpg" alt="Simone Cicero"
+              onerror="this.style.display='none';this.nextElementSibling.style.display='block'">
+            <span class="member-initials">SC</span>
+          </div>
+          <div class="member-info">
+            <p class="member-name">Simone Cicero</p>
+            <p class="member-location">Roma, Italy</p>
+            <p class="member-bio">Simone Cicero is CEO of Boundaryless and creator of the Platform Design Toolkit, an open-source methodology now used by over 70,000 practitioners worldwide to design platform businesses and ecosystems. He advises organisations on decentralised organisational models and the future of work and value creation.</p>
+            <div class="member-links">
+              <a class="member-link" href="https://www.linkedin.com/in/simonecicero" target="_blank" rel="noopener">
+                <svg width="11" height="11" viewBox="0 0 24 24" fill="currentColor"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
+                LinkedIn
+              </a>
+              <a class="member-link" href="https://www.simonecicero.com/" target="_blank" rel="noopener">↗ Website</a>
+            </div>
+          </div>
+        </div>
+
+        <!-- Stefana Broadbent -->
+        <div class="member-card">
+          <div class="member-photo-wrap">
+            <img class="member-photo" src="members/photos/stefana-broadbent.jpg" alt="Stefana Broadbent"
+              onerror="this.style.display='none';this.nextElementSibling.style.display='block'">
+            <span class="member-initials">SB</span>
+          </div>
+          <div class="member-info">
+            <p class="member-name">Stefana Broadbent</p>
+            <p class="member-location">Milan, Italy</p>
+            <p class="member-bio">Stefana Broadbent is a digital anthropologist and Professor at the Politecnico di Milano's Department of Design, and Honorary Visiting Researcher at UCL. A TED speaker and former director of the Collective Intelligence unit at Nesta, she has spent two decades studying how people integrate technology into everyday life at home and at work.</p>
+            <div class="member-links">
+              <a class="member-link" href="https://www.linkedin.com/in/stefanabroadbent" target="_blank" rel="noopener">
+                <svg width="11" height="11" viewBox="0 0 24 24" fill="currentColor"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
+                LinkedIn
+              </a>
+              <a class="member-link" href="https://dipartimentodesign.polimi.it/en/staff/stefanamaja.broadbent" target="_blank" rel="noopener">↗ Website</a>
+            </div>
+          </div>
+        </div>
+
+      </div><!-- /.members-grid -->
+    </div><!-- /.container -->
+  </main>
+
+  <footer>
+    <div class="container">
+      <p class="footer__legal">&copy; 2026 Pre-Alpha Club &middot; <a href="https://proximolab.com/" target="_blank" rel="noopener">Próximo Lab</a></p>
+    </div>
+  </footer>
+
+</body>
+</html>
